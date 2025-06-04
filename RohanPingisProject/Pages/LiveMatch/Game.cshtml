@@ -157,8 +157,8 @@
                             <p class="pt-2" id="set-timer" data-start="@Model.CurrentSet.SetStartTime.ToString("o")"><strong>Tid: --:--</strong></p>
                         </div>
                         <div class="row-auto">
-                            <img class="logoIcon pb-2" src="~/img/ang-logo.gif" alt="Ängby">
-                            <span class="pb-3 mb-3">Ängby Sportklubb</span>
+                            <img class="logoIcon pb-2" src="~/img/domsjo.png" alt="Domsjö">
+                            <span class="pb-3 mb-3">Domsjö Pingisklubb</span>
                         </div>
                     </div>
 
@@ -329,33 +329,67 @@
 </section>
 
 
-<script>
+@section Scripts {
+    <script>
 
-        function closeSetWinModal() {
+            function closeSetWinModal() {
 
-        var modal = document.querySelector('.modal-overlay');
-        if (modal) modal.style.display = 'none';
-    }
-    (() => {
-        const timerEl = document.getElementById("set-timer");
-        if (!timerEl) return;
-
-        const startTime = new Date(timerEl.dataset.start);
-
-        function updateTimer() {
-            const now = new Date();
-            const diffMs = now.getTime() - startTime.getTime();
-            if (diffMs < 0) return;
-
-            const diff = new Date(diffMs);
-
-            const minutes = String(diff.getUTCMinutes()).padStart(2, '0');
-            const seconds = String(diff.getUTCSeconds()).padStart(2, '0');
-
-            timerEl.textContent = `Settid: ${minutes}:${seconds}`;
+            var modal = document.querySelector('.modal-overlay');
+            if (modal) modal.style.display = 'none';
         }
+        (() => {
+            const timerEl = document.getElementById("set-timer");
+            if (!timerEl) return;
 
-        updateTimer();
-        setInterval(updateTimer, 1000);
-    })();
-</script>
+            const startTime = new Date(timerEl.dataset.start);
+
+            function updateTimer() {
+                const now = new Date();
+                const diffMs = now.getTime() - startTime.getTime();
+                if (diffMs < 0) return;
+
+                const diff = new Date(diffMs);
+
+                const minutes = String(diff.getUTCMinutes()).padStart(2, '0');
+                const seconds = String(diff.getUTCSeconds()).padStart(2, '0');
+
+                timerEl.textContent = `Settid: ${minutes}:${seconds}`;
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        })();
+
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const box = document.querySelector('.box-player1');
+            if (box) {
+                box.addEventListener('click', function (e) {
+                    // Om man klickat direkt på knappen - gör ingenting
+                    if (e.target.tagName.toLowerCase() === 'button') return;
+
+                    // Hitta den synliga knappen och klicka på den
+                    const btn = box.querySelector('button');
+                    if (btn) btn.click();
+                });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const box = document.querySelector('.box-player2');
+            if (box) {
+                box.addEventListener('click', function (e) {
+                    // Om man klickat direkt på knappen - gör ingenting
+                    if (e.target.tagName.toLowerCase() === 'button') return;
+
+                    // Hitta den synliga knappen och klicka på den
+                    const btn = box.querySelector('button');
+                    if (btn) btn.click();
+                });
+            }
+        });
+    </script>
+}

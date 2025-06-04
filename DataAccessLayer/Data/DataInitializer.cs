@@ -26,7 +26,7 @@ namespace DataAccessLayer.Data
 
         private void SeedUsers()
         {
-            AddUserIfNotExists("admin@angby.se", "*Admin100", new string[] { "Admin" });
+            AddUserIfNotExists("admin@domsjo.net", "*Admin100", new string[] { "Admin" });
         }
 
         private void SeedRoles()
@@ -66,7 +66,7 @@ namespace DataAccessLayer.Data
            {
                new Player
                {
-                   Name = "Richard Chalk",
+                   Name = "Richard Karlsson",
                    Gender = Gender.Male,
                    BirthDate = new DateOnly(1980, 1, 1),
                },
@@ -106,6 +106,24 @@ namespace DataAccessLayer.Data
                    Gender = Gender.Female,
                    BirthDate = new DateOnly(2000, 10, 21)
                },
+               new Player
+               {
+                   Name = "Pelle Jonsson",
+                   Gender = Gender.Male,
+                   BirthDate = new DateOnly(2000, 09, 22)
+               },
+               new Player
+               {
+                   Name = "Kalle Persson",
+                   Gender = Gender.Male,
+                   BirthDate = new DateOnly(1999, 08, 12)
+               },
+               new Player
+               {
+                   Name = "Britta Svensson",
+                   Gender = Gender.Female,
+                   BirthDate = new DateOnly(1999, 03, 03)
+               },
            };
 
                 _dbContext.Players.AddRange(players);
@@ -119,7 +137,7 @@ namespace DataAccessLayer.Data
             {
                 var players = _dbContext.Players.ToList();
 
-                var chalk = players.First(p => p.Name == "Richard Chalk");
+                var chalk = players.First(p => p.Name == "Richard Karlsson");
                 var truls = players.First(p => p.Name == "Truls Möregårdh");
                 var waldner = players.First(p => p.Name == "Jan-Ove Waldner");
                 var maLong = players.First(p => p.Name == "Ma Long");
