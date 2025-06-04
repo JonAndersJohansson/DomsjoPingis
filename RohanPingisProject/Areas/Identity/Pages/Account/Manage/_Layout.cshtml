@@ -1,0 +1,44 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<h1 class="pt-3 text-center" style="font-family: var(--heading-font); color: var(--heading-color); font-weight: 700;">
+    Hantera dina konto inställningar
+</h1>
+
+<div class="container p-2 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="p-3 shadow rounded bg-white" style="border: 1px solid #eee;">
+                        <h2 class="h5 mb-3" style="font-family: var(--heading-font); color: var(--heading-color); font-weight: 600;">
+                            Konto-navigering
+                        </h2>
+                        <partial name="_ManageNav" />
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="p-4 shadow rounded bg-white" style="border: 1px solid #eee;">
+                        <h2 class="h5 mb-3" style="font-family: var(--heading-font); color: var(--heading-color); font-weight: 600;">
+                            Ändra dina konto inställningar
+                        </h2>
+                        <hr class="mb-4" style="border-top: 2px solid var(--accent-color);" />
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

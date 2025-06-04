@@ -1,0 +1,70 @@
+﻿@page
+@model RohanPingisProject.Pages.Player.CreatePlayerModel
+@{
+    ViewData["Title"] = "Skapa spelare";
+}
+
+<section class="container create-player mt-4">
+
+    <div class="create-player-box d-flex flex-column flex-md-row align-items-center mb-4">
+        <a class="btn btn-goback mb-2 mb-md-0 me-0" asp-page="/LiveMatch/Index">Tillbaka</a>
+        <h1 class="flex-grow-1 text-center m-0">Skapa spelare</h1>
+        <span class="d-none d-md-inline-block" style="width:100px;visibility:hidden;">&nbsp;</span>
+    </div>
+
+
+
+
+
+    <div class="mx-auto" style="max-width: 800px;">
+        <div class="card shadow p-4 live-match-card">
+            <form method="post">
+                <div class="row justify-content-center mb-4 gy-3">
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger text-center">
+                            Något gick fel – kontrollera att alla fält är ifyllda och försök igen
+                        </div>
+                    }
+
+                    <!-- Namn -->
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="NewPlayer.Name">För- och efternamn</label>
+                        <input class="form-control" placeholder="Ange namn.." asp-for="NewPlayer.Name" />
+                        <span asp-validation-for="NewPlayer.Name" class="text-danger"></span>
+                    </div>
+
+                    <!-- Kön -->
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="NewPlayer.Gender">Kön</label>
+                        <select class="form-select" asp-for="NewPlayer.Gender" asp-items="Model.GenderOptions"></select>
+                        <span asp-validation-for="NewPlayer.Gender" class="text-danger"></span>
+                    </div>
+
+
+                    <!-- Födelsedatum -->
+                    <div class="col-md-3 mb-3">
+                        <label asp-for="NewPlayer.BirthDate">Födelsedatum</label>
+                        <input type="date" class="form-control" asp-for="NewPlayer.BirthDate" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="NewPlayer.BirthDate" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <!-- Knapp-rad -->
+                <div class="row justify-content-center mt-2">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-CreatePlayer-ShowGame w-100">Skapa spelare</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

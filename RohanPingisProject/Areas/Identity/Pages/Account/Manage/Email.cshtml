@@ -1,0 +1,48 @@
+﻿@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Hantera Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+
+<h3 class="text-center mb-4" style="font-family: var(--heading-font); color: var(--heading-color); font-weight: 700;">
+    @ViewData["Title"]
+</h3>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="col-12">
+        <section class="p-4 shadow rounded" style="background: #fff; border: 1px solid #eee;">
+            <partial name="_StatusMessage" for="StatusMessage" />
+            <form id="email-form" method="post">
+                <div asp-validation-summary="All" class="text-danger mb-3" role="alert"></div>
+                @if (Model.IsEmailConfirmed)
+                {
+                    <div class="form-floating mb-3 input-group">
+                        <input asp-for="Email" class="form-control" disabled />
+                        <div class="input-group-append">
+                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                        </div>
+                        <label asp-for="Email" class="form-label"></label>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-floating mb-3 d-flex align-items-center gap-2">
+                        <input asp-for="Email" class="form-control"  disabled />
+                        <label asp-for="Email" class="form-label"></label>
+                        <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-custom-primary ms-2">Send verification email</button>
+                    </div>
+                }
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" />
+                    <label asp-for="Input.NewEmail" class="form-label">Ny Email</label>
+                    <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                </div>
+                <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-custom-success btn-lg">Ändra Email</button>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

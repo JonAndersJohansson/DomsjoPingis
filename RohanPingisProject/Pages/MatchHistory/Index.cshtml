@@ -1,0 +1,224 @@
+﻿@page
+@model RohanPingisProject.Pages.MatchHistory.IndexModel
+@{
+    ViewData["Title"] = "Matchhistorik";
+}
+
+<section>
+    @* <div class="container match-history-index"> *@
+    <div class="match-history-index container">
+        <div>
+            <h2 class="match-history-title">Matchhistorik</h2>
+        </div>
+        <div class="equal-size-buttons mb-2">
+            <a class="btn btn-CreatePlayer-ShowGame" asp-area="" asp-page="/MatchHistory/PlayerStatistics">
+                <i class="fa-solid fa-user me-2"></i> Statistik
+            </a>
+            <a class="btn btn-CreatePlayer-ShowGame" asp-area="" asp-page="/MatchHistory/TopTen">
+                <i class="fa-solid fa-medal me-2"></i> Topplista
+            </a>
+        </div>
+        <form method="get" class="search-form">
+            <div class="search-container py-3">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text"
+                       name="q"
+                       value="@Request.Query["q"]"
+                       placeholder="Sök spelare.."
+                       class="search-input" />
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table id="match-history-table" class="table table-striped custom-table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <div class="text-center th-text">
+                                Match ID
+                            </div>
+                            <div class="text-center">
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Id"
+                                   asp-route-sortOrder="asc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-up sort-arrow"></i>
+                                </a>
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Id"
+                                   asp-route-sortOrder="desc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-down sort-arrow"></i>
+                                </a>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center th-text">
+                                Spelare 1
+                            </div>
+                            <div class="text-center">
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Player1Name"
+                                   asp-route-sortOrder="asc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-up sort-arrow"></i>
+                                </a>
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Player1Name"
+                                   asp-route-sortOrder="desc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-down sort-arrow"></i>
+                                </a>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center th-text">
+                                Spelare 2
+                            </div>
+                            <div class ="text-center">
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Player2Name"
+                                   asp-route-sortOrder="asc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-up sort-arrow"></i>
+                                </a>
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="Player2Name"
+                                   asp-route-sortOrder="desc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-down sort-arrow"></i>
+                                </a>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center th-text">
+                                Match Datum
+                            </div>
+                            <div class="text-center">
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="MatchDate"
+                                   asp-route-sortOrder="asc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-up sort-arrow"></i>
+                                </a>
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="MatchDate"
+                                   asp-route-sortOrder="desc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-down sort-arrow"></i>
+                                </a>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="text-center th-text">
+                                Bäst av
+                            </div>
+                            <div class="text-center">
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="BestOfSets"
+                                   asp-route-sortOrder="asc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-up sort-arrow"></i>
+                                </a>
+                                <a asp-page="/MatchHistory/Index"
+                                   asp-route-sortColumn="BestOfSets"
+                                   asp-route-sortOrder="desc"
+                                   style="text-decoration:none">
+                                    <i class="fa-solid fa-angle-down sort-arrow"></i>
+                                </a>
+                            </div>
+                        </th>
+                        <th scope="col"> </th> @* button *@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var Match in Model.Matches)
+                    {
+                        <tr>
+                            <td class ="text-center th-text">@Match.Id</td>
+                            <td class ="text-center th-text">@Match.Player1Name</td>
+                            <td class ="text-center th-text">@Match.Player2Name</td>
+                            <td class="text-center th-text">
+                                @Match.MatchDate.ToString("yyyy-MM-dd")
+                            </td>
+                            <td class="text-center th-text">@((int)Match.BestOfSets)</td>
+                            <td class="text-center th-text">
+                                
+                                <a asp-page="/MatchHistory/MatchDetails"
+                                   asp-route-id="@Match.Id"
+                                   class="btn" id="eye-btn">
+                                    <i class="fa-solid fa-eye eye-icon"></i>
+                                </a>@*                                 <a asp-page="/MatchHistory/Delete"
+                                   asp-route-id="@Match.Id"
+                                   class="btn">
+                                    <i class="fa-solid fa-trash delete-icon"></i>
+                                </a> *@
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-container d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex flex-wrap gap-2">
+            @if (Model.CurrentPage != 1)
+            {
+                <a class="btn btn-custom-success"
+                   asp-page="/MatchHistory/Index"
+                   asp-route-match="@Model.Matches"
+                   asp-route-sortColumn="@Model.SortColumn"
+                   asp-route-sortOrder="@Model.SortOrder"
+                   asp-route-pageNo="@(Model.CurrentPage-1)">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Föregående
+                </a>
+            }
+            @if (Model.CurrentPage > 3)
+            {
+                <a class="btn-custom-primary"
+                   asp-route-pageNo="1">1</a>
+                <span class="btn disabled">...</span>
+            }
+
+            @for (int i = Model.CurrentPage - 1; i <= Model.CurrentPage + 2; i++)
+            {
+                if (i > 0 && i <= Model.PageCount)
+                {
+                    string activeLink = (i == Model.CurrentPage) ? "btn-custom-primary" : "btn-custom-secondary";
+                    <a class="btn @activeLink"
+                       asp-route-pageNo="@i">
+                        @i
+                    </a>
+                }
+            }
+
+            @if (Model.CurrentPage < Model.PageCount - 3)
+            {
+                <span class="btn disabled">...</span>
+                <a class="btn-custom-primary"
+                   asp-route-pageNo="@Model.PageCount">
+                    @Model.PageCount
+                </a>
+            }
+        </div>
+
+
+        @if (Model.CurrentPage < Model.PageCount)
+        {
+            <div class="ms-auto">
+                <a class="btn btn-custom-success"
+                   asp-page="/MatchHistory/Index"
+                   asp-route-match="@Model.Matches"
+                   asp-route-sortColumn="@Model.SortColumn"
+                   asp-route-sortOrder="@Model.SortOrder"
+                   asp-route-pageNo="@(Model.CurrentPage+1)">
+                    Nästa
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        }
+    </div>
+    </div>
+    </section>

@@ -1,0 +1,174 @@
+﻿@page
+@model RohanPingisProject.Pages.LiveMatch.IndexModel
+@{
+    ViewData["Title"] = "Live Match";
+}
+
+<section class="container live-match-index mt-0 h-100">
+    <div class="d-flex flex-column flex-md-row align-items-center">
+        <h1 class="flex-grow-1 text-center mt-3">Starta en Match</h1>
+    </div>
+
+    <div class="mx-auto" style="max-width: 800px;">
+        <div class="card shadow p-4 live-match-card mb-4">
+            <form method="post">
+                <div class="row justify-content-center mb-2 gy-3">
+                    <h2 class="mt-2 mb-1">Välj spelare</h2>
+
+
+                    <!-- Spelare 1 -->
+                    <div class="col-md-4 mt-2">
+                        <label for="player1Name" class="form-label">
+                            <i class="fa fa-user me-1 player1-icon"></i>
+                            Spelare 1
+                        </label>
+                        <input type="text" id="player1Name" class="form-control" placeholder="Ange namn.." />
+                        <small class="form-text">Börja skriva och välj från listan</small>
+                        <input type="hidden" name="Player1Id" id="Player1Id" />
+                        <span asp-validation-for="Player1Id" class="text-danger"></span>
+                    </div>
+
+                    <!-- Spelare 2 -->
+                    <div class="col-md-4 mt-2">
+                        <label for="player2Name" class="form-label">
+                            <i class="fa fa-user me-1 player2-icon"></i>
+                            Spelare 2
+                        </label>
+                        <input type="text" id="player2Name" class="form-control" placeholder="Ange namn.." />
+                        <small class="form-text">Börja skriva och välj från listan</small>
+                        <input type="hidden" name="Player2Id" id="Player2Id" />
+                        <span asp-validation-for="Player2Id" class="text-danger"></span>
+                    </div>
+                </div>
+                    <!-- Skapa ny spelare -->
+                    <h3 class="m-2 text-white">Finns inte spelaren du söker?</h3>
+                    <div class="d-flex justify-content-center mb-2">
+                        <a class="btn btn-CreatePlayer-ShowGame" asp-area="" asp-page="/Player/CreatePlayer">Skapa ny spelare</a>
+                    </div>
+                <!-- Antal set -->
+                <div class="row justify-content-center text-center mt-4 mb-4 gy-3">
+                    <h2 class="mb-1">Välj antal set</h2>
+                    <div class="col-md-4">
+                        <label asp-for="BestOfValue">
+                            <i class="fa-solid fa-table-tennis-paddle-ball paddle-icon"></i>
+                        </label>
+                        <select class="form-select" asp-for="BestOfValue" asp-items="Model.BestOf"></select>
+                        <span asp-validation-for="BestOfValue" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Starta spel-knapp -->
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-CreatePlayer-ShowGame w-100">Starta spel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--ERRORS-->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger mt-2 text-center">
+            @TempData["Error"]
+        </div>
+    }
+    @if (TempData["NoGame"] != null)
+    {
+        <div class="alert alert-danger mt-2 text-center">
+            @TempData["NoGame"]
+        </div>
+    }
+</section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+    <script>
+        function setupAutocomplete(inputSelector, hiddenIdSelector, otherHiddenSelector) {
+            let selectedId = null;
+
+            $(inputSelector).autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/SearchPlayers",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name,
+                                    id: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    if ($(otherHiddenSelector).val() === ui.item.id.toString()) {
+                        alert("Den här spelaren är redan vald!");
+                        return false;
+                    }
+
+                    selectedId = ui.item.id;
+                    $(hiddenIdSelector).val(ui.item.id);
+                    $(inputSelector).addClass("is-valid").removeClass("is-invalid");
+                }
+            });
+
+            $(inputSelector).on("input", function () {
+                selectedId = null;
+                $(hiddenIdSelector).val("");
+                $(this).removeClass("is-valid is-invalid");
+            });
+            $(inputSelector).on("blur", function () {
+                const inputVal = $(this).val().trim();
+                if (!inputVal) return;
+
+                $.ajax({
+                    url: "/api/SearchPlayers",
+                    data: { term: inputVal },
+                    success: function (data) {
+                        const match = data.find(p => p.name.toLowerCase() === inputVal.toLowerCase());
+                        if (!match) {
+                            $(inputSelector).addClass("is-invalid").removeClass("is-valid");
+                            $(hiddenIdSelector).val("");
+                        }
+                    }
+                });
+            });
+        }
+
+        $(function () {
+            setupAutocomplete("#player1Name", "#Player1Id", "#Player2Id");
+            setupAutocomplete("#player2Name", "#Player2Id", "#Player1Id");
+            $("form").on("submit", function (e) {
+                let valid = true;
+
+                if (!$("#Player1Id").val()) {
+                    $("#player1Name").addClass("is-invalid");
+                    valid = false;
+                }
+
+                if (!$("#Player2Id").val()) {
+                    $("#player2Name").addClass("is-invalid");
+                    valid = false;
+                }
+
+                if ($("#Player1Id").val() === $("#Player2Id").val()) {
+                    alert("Samma spelare kan inte spela mot sig själv!");
+                    $("#player1Name, #player2Name").addClass("is-invalid");
+                    valid = false;
+                }
+
+                if (!valid) {
+                    e.preventDefault(); // Stoppa formuläret
+                }
+            });
+        });
+    </script>
+}

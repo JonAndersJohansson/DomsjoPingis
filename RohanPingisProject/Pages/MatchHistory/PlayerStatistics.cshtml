@@ -1,0 +1,277 @@
+﻿@page
+@model RohanPingisProject.Pages.MatchHistory.PlayerStatisticsModel
+@{
+    ViewData["Title"] = "Spelarstatistik";
+}
+<section>
+    <div class="container-xxl player-statistics mt-3">
+
+        <div class="d-flex justify-content-center align-items-center position-relative mb-4">
+            <a class="btn btn-goback btn-sm position-absolute start-0 d-none d-sm-inline-block" asp-page="/MatchHistory/Index">Tillbaka</a>
+            <h2 class="m-0 h4 text-center">Spelarstatistik</h2>
+        </div>
+
+        <!-- Single player input at the top -->
+        <div class="player-statistics-card row justify-content-center p-3  m-0 mb-3">
+            <div class="col-md-6">
+                <form method="post" asp-page-handler="PlayerStatistics" id="playerStatsForm" autocomplete="off">
+                    <input type="text"
+                           id="player1NameStats"
+                           name="player1NameStats"
+                           class="form-control"
+                           placeholder="Ange spelarens namn.."
+                           autocomplete="off"
+                           value="@Model.Player1NameStats" />
+                    <input type="hidden" asp-for="Player1Id" id="Player1IdStats" />
+                    <span asp-validation-for="Player1Id" class="text-danger"></span>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center g-4">
+            <!-- Totalstatistik -->
+            <div class="col-md-4 d-flex">
+                <div class="card player-statistics-card flex-fill d-flex flex-column h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title text-center mb-4">
+                            📈 Totalstatistik
+                        </h3>
+                        <div class="bg-light p-3 rounded border-start border-4 border-warning flex-fill d-flex align-items-center justify-content-center" style="min-height: 340px;">
+                            @if (Model.PlayerStatistics != null)
+                            {
+                                <div class="w-100 px-2">
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>🏆 <strong>Vinster</strong></span>
+                                        <span class="ms-3">@Model.PlayerStatistics.TotalWins</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>❌ <strong>Förluster</strong></span>
+                                        <span class="ms-3">@Model.PlayerStatistics.TotalLosses</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>📈 <strong>Vinst-ratio</strong></span>
+                                        <span class="ms-3">@Model.PlayerStatistics.WinRation%</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>🏓 <strong>Totala spelade</strong></span>
+                                        <span class="ms-3">@Model.PlayerStatistics.TotalMatches</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>⏱️ <strong>Medeltid match</strong></span>
+                                        <span class="ms-3">@(Model.PlayerStatistics.AverageMatchDuration.ToString(@"hh\:mm\:ss"))</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>⬆️ <strong>Längsta match</strong></span>
+                                        <span class="ms-3">@(Model.PlayerStatistics.LongestMatchDuration.ToString(@"hh\:mm\:ss"))</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2">
+                                        <span>⬇️ <strong>Kortaste match</strong></span>
+                                        <span class="ms-3">@(Model.PlayerStatistics.ShortestMatchDuration.ToString(@"hh\:mm\:ss"))</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Välj en spelare för att se statistik</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bäst/Sämst Sektion -->
+            <div class="col-md-4 d-flex">
+                <div class="card player-statistics-card flex-fill d-flex flex-column h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title text-center mb-4">
+                            🎖️ Bäst & Sämst
+                        </h3>
+                        <div class="bg-light p-3 rounded border-start border-4 border-warning flex-fill d-flex align-items-center justify-content-center" style="min-height: 340px;">
+                            @if (Model.PlayerBestAndWorst != null)
+                            {
+                                <div class="w-100 px-2">
+                                    <!-- Bäst mot -->
+                                    <div class="bg-white rounded shadow-sm p-4 mb-3 text-center">
+                                        <div class="mb-1">
+                                            🏆 <strong>Bäst mot</strong>
+                                        </div>
+                                        <div class="fs-6 text-break">
+                                            @Html.Raw(Model.PlayerBestAndWorst.BestPerformance.Replace("\n", "<br>"))
+                                        </div>
+                                    </div>
+                                    <!-- Sämst mot -->
+                                    <div class="bg-white rounded shadow-sm p-4 text-center">
+                                        <div class="mb-1">
+                                            😓 <strong>Sämst mot</strong>
+                                        </div>
+                                        <div class="fs-6 text-break">
+                                            @Html.Raw(Model.PlayerBestAndWorst.WorstPerformance.Replace("\n", "<br>"))
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Välj en spelare för att se bäst/sämst statistik</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Head-to-Head Statistik -->
+            <div class="col-md-4 d-flex">
+                <div class="card player-statistics-card flex-fill d-flex flex-column h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title text-center mb-4">
+                            ⚔️ Mot specifik spelare
+                        </h3>
+                        <form method="post" asp-page-handler="HeadToHead" id="headToHeadForm">
+                            <input type="hidden" asp-for="Player1Id" id="HeadToHeadPlayer1Id" />
+                            <input type="hidden" name="player1NameStats" value="@Model.Player1NameStats" />
+                            <div class="mb-3">
+                                <input type="text"
+                                       id="Player2NameHeadToHead"
+                                       name="Player2NameHeadToHead"
+                                       class="form-control"
+                                       placeholder="Ange motståndare..."
+                                       autocomplete="off"
+                                       value="@Model.Player2NameHeadToHead" />
+                                <input type="hidden" asp-for="Player2Id" id="HeadToHeadPlayer2Id" />
+                                <span asp-validation-for="Player2Id" class="text-danger"></span>
+                            </div>
+                        </form>
+                        <div class="bg-light pb-4 px-3 rounded border-start border-4 border-warning flex-fill d-flex align-items-center justify-content-center" style="min-height: 340px;">
+                            @if (Model.HeadToHeadStats != null &&
+                                                        !string.IsNullOrEmpty(Model.HeadToHeadStats.PlayerAName) &&
+                                                        !string.IsNullOrEmpty(Model.HeadToHeadStats.PlayerBName))
+                            {
+                                <div class="w-100 px-2">
+                                    <div class="d-flex align-items-center justify-content-center py-0 mb-2">
+                                        <span>🤝<strong>Spelare</strong></span>
+                                    </div>
+                                    <div class="d-flex justify-content-center text-center align-items-center py-2 border-bottom">
+                                        <span>@Model.HeadToHeadStats.PlayerAName vs @Model.HeadToHeadStats.PlayerBName</span>
+                                        </div>
+                                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                        <span>🎮 <strong>Matcher</strong></span>
+                                        <span class="ms-3">
+                                            @(Model.HeadToHeadStats.PlayerAWins + Model.HeadToHeadStats.PlayerBWins)
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                    <span>🏆 <strong>@Model.HeadToHeadStats.PlayerAName vinster</strong></span>
+                                    <span class="ms-3">@Model.HeadToHeadStats.PlayerAWins</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center py-2">
+                                    <span>🏆 <strong>@Model.HeadToHeadStats.PlayerBName vinster</strong></span>
+                                    <span class="ms-3">@Model.HeadToHeadStats.PlayerBWins</span>
+                                </div>
+                            </div>
+                                                        }
+                            else if (TempData["Error"] != null)
+                            {
+                                <div>
+                                    <div class="col d-flex align-items-center justify-content-center">
+                                        <div class="alert alert-danger align-content-center mb-0" role="alert">
+                                            @TempData["Error"]
+                                        </div>
+                                    </div>
+                                    <div class="col align-items-center justify-content-center">
+                                        <p class="text-center text-muted fst-italic py-4 mb-0">
+                                            Välj en spelare och motståndare för att se mot andra spelare statistik
+                                        </p>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <p class="text-center text-muted fst-italic py-4 mb-0">
+                                    Välj en spelare och motståndare för att se mot andra spelare statistik
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
+
+<partial name="_ValidationScriptsPartial" />
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+
+    <script>
+        function setupAutocomplete(inputSelector, hiddenIdSelector, formSelector) {
+            $(inputSelector).autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/SearchPlayers",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name,
+                                    id: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    $(hiddenIdSelector).val(ui.item.id);
+                    $(inputSelector).addClass("is-valid").removeClass("is-invalid");
+                    $(formSelector).submit();
+                }
+            });
+
+            $(inputSelector).on("input", function () {
+                $(hiddenIdSelector).val("");
+                $(this).removeClass("is-valid is-invalid");
+            });
+            $(formSelector).on("submit", function (e) {
+                if (!$(hiddenIdSelector).val()) {
+                    e.preventDefault();
+                    $(inputSelector).addClass("is-invalid");
+                }
+            });
+        }
+
+        function setupOpponentAutocomplete() {
+            $("#Player2NameHeadToHead").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/api/SearchPlayers",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.name,
+                                    value: item.name,
+                                    id: item.id
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    $("#HeadToHeadPlayer2Id").val(ui.item.id);
+                    $("#Player2NameHeadToHead").addClass("is-valid").removeClass("is-invalid");
+                    $("#headToHeadForm").submit();
+                }
+            }).on("input", function () {
+                $("#HeadToHeadPlayer2Id").val("");
+                $(this).removeClass("is-valid is-invalid");
+            });
+        }
+
+                $(function () {
+            setupAutocomplete("#player1NameStats", "#Player1IdStats", "#playerStatsForm");
+            setupAutocomplete("#Player2NameHeadToHead", "#HeadToHeadPlayer2Id", "#headToHeadForm");
+        });
+    </script>
+}

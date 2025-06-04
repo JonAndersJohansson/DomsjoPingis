@@ -1,0 +1,361 @@
+﻿@page
+@model RohanPingisProject.Pages.LiveMatch.GameModel
+@{
+    @using DataAccessLayer.Data.Models
+
+                Layout = "_Layout";
+    ViewData["HideFooter"] = true;
+}
+
+<section class="h-100">
+
+    @if (string.IsNullOrEmpty(Model.Winner))
+    {
+        <form method="post" class="h-100">
+
+            <input type="hidden" asp-for="MatchId" />
+            <input type="hidden" asp-for="CurrentSet.Id" />
+
+            <div class="row g-0 h-100">
+
+                <div class="box-player1 col text-center h-100 d-flex flex-column justify-content-around">
+
+                    <div class="player-text mt-2">
+                        <p>
+                            @Model.Match.Player1FirstName
+
+                            @if (Model.Match.Player1Gender == Gender.Male)
+                            {
+                                <i class="fa-solid fa-mars player-text"></i>
+                            }
+                            else if (Model.Match.Player1Gender == Gender.Female)
+                            {
+                                <i class="fa-solid fa-venus player-text"></i>
+                            }
+                            else if (Model.Match.Player1Gender == Gender.Other)
+                            {
+                                <i class="fa-solid fa-mars-and-venus player-text"></i>
+                            }
+                            else if (Model.Match.Player1Gender == Gender.Unspecified)
+                            {
+                                <i class="fa-solid fa-face-smile-wink player-text"></i>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="w-50px h-50px">
+                        @if (Model.CurrentSet.IsP1Serving)
+                        {
+                            <div><img class="serverIcon" src="~/img/p1.png" alt="Visar vems tur det är att serva" /></div>
+                        }
+                        else
+                        {
+                            <div><img class="serverIcon" src="~/img/p1.png" alt="Dold ikon" style="visibility: hidden;" /></div>
+                        }
+                    </div>
+
+
+                    <div class="scoreboard-point">@Model.CurrentSet.Player1Points</div>
+
+                    <div class="scoreboard-setpoint-layout">
+
+                        @if (!Model.IsCorrection)
+                        {
+                            <div class="col scoreboard-setpoint">
+                                <button asp-page-handler="AddPointToPlayer1" type="submit" class="scoreboard-btn">+</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col scoreboard-setpoint">
+                                <button asp-page-handler="WithdrawPointFromPlayer1" type="submit" class="scoreboard-btn">-</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="box-center col text-center h-100 d-flex flex-column justify-content-between">
+
+                    <div class="row g-0 serverboard-text-black" id="set-counter">
+                        <p><strong>Set:</strong> @Model.CurrentSet.SetNumber av @((int)Model.Match.BestOfSets)</p>
+                    </div>
+
+                    <div class="d-flex flex-row align-items-center justify-content-around">
+                        <div class="col box-serverboard serverboard-point ">
+                            <p class="serverboard-text-small"><strong>SET</strong></p>
+                            <p>@Model.Match.Player1Score</p>
+                        </div>
+
+                        <div class="col box-serverboard serverboard-point">
+                            <p class="serverboard-text-small"><strong>SET</strong></p>
+                            <p>@Model.Match.Player2Score</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="box-setservice">
+
+                        <div class="row g-0 serverboard-text-black items-center justify-content-center">
+
+                            <div>
+                                @if (Model.CurrentSet.IsSetBallPlayer1)
+                                {
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    <span>Setboll @Model.Match.Player1FirstName</span>
+
+                                }
+                            </div>
+
+                            <div>
+                                @if (Model.CurrentSet.IsSetBallPlayer2)
+                                {
+                                    <span>Setboll  @Model.Match.Player2FirstName</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                }
+                            </div>
+
+                            <div>
+                                @if (Model.CurrentSet.IsDeuce)
+                                {
+                                    <span>DEUCE</span>
+                                }
+                            </div>
+
+                            <div>
+                                @if (Model.CurrentSet.IsMatchBallPlayer1)
+                                {
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                    <span><strong>Matchboll  @Model.Match.Player1FirstName</strong></span>
+                                }
+                            </div>
+
+                            <div>
+                                @if (Model.CurrentSet.IsMatchBallPlayer2)
+                                {
+                                    <span><strong>Matchboll @Model.Match.Player2FirstName</strong></span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                }
+                            </div>
+
+                            <div>
+                                @if (!Model.CurrentSet.IsDeuce && !Model.CurrentSet.IsSetBallPlayer1 && !Model.CurrentSet.IsSetBallPlayer2 && !Model.CurrentSet.IsMatchBallPlayer1 && !Model.CurrentSet.IsMatchBallPlayer2)
+                                {
+                                    <span style="visibility: hidden;"><strong>Matchboll placeholder</strong></span>
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button asp-page-handler="Correction" type="submit" class="btn-correction">Korrigering: @(Model.IsCorrection ? "PÅ" : "AV")</button>
+
+                    <div class="row box-serverboard serverboard-text align-items-center justify-content-center">
+                        <!--Set timer-->
+                        <div class="col-auto">
+                            <p class="pt-2" id="set-timer" data-start="@Model.CurrentSet.SetStartTime.ToString("o")"><strong>Tid: --:--</strong></p>
+                        </div>
+                        <div class="row-auto">
+                            <img class="logoIcon pb-2" src="~/img/ang-logo.gif" alt="Ängby">
+                            <span class="pb-3 mb-3">Ängby Sportklubb</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="box-player2 col text-center h-100 d-flex flex-column justify-content-around">
+
+                    <div class="player-text mt-2">
+                        <!--Player2 info-->
+                        <p>
+                            @Model.Match.Player2FirstName
+
+                            @if (Model.Match.Player2Gender == Gender.Male)
+                            {
+                                <i class="fa-solid fa-mars player-text"></i>
+                            }
+                            else if (Model.Match.Player2Gender == Gender.Female)
+                            {
+                                <i class="fa-solid fa-venus player-text"></i>
+                            }
+                            else if (Model.Match.Player2Gender == Gender.Other)
+                            {
+                                <i class="fa-solid fa-mars-and-venus player-text"></i>
+                            }
+                            else if (Model.Match.Player2Gender == Gender.Unspecified)
+                            {
+                                <i class="fa-solid fa-face-smile-wink player-text"></i>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="w-50px h-50px">
+                        @if (!Model.CurrentSet.IsP1Serving)
+                        {
+                            <div><img class="serverIcon" src="~/img/p1.png" alt="Visar vems tur det är att serva" /></div>
+                        }
+                        else
+                        {
+                            <div><img class="serverIcon" src="~/img/p1.png" alt="Dold ikon" style="visibility: hidden;" /></div>
+                        }
+                    </div>
+
+
+                    <div class="scoreboard-point">@Model.CurrentSet.Player2Points </div>
+
+                    <div class="scoreboard-setpoint-layout">
+
+                        @if (!Model.IsCorrection)
+                        {
+                            <div class="col scoreboard-setpoint">
+                                <button asp-page-handler="AddPointToPlayer2" type="submit" class="scoreboard-btn">+</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col scoreboard-setpoint">
+                                <button asp-page-handler="WithdrawPointFromPlayer2" type="submit" class="scoreboard-btn">-</button>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+
+            </div>
+        </form>
+        @if (ViewData["ShowFirstServerModal"] != null && (bool)ViewData["ShowFirstServerModal"])
+        {
+            <div class="modal fade show d-block" id="firstServerModal" tabindex="-1" aria-modal="true" role="dialog" style="background-color: rgba(0,0,0,0.5);">
+                <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 600px; width: 95vw;">
+                    <div class="modal-content p-1 m-2 border-0 rounded-4">
+                        <div class="modal-header border-0 pb-0">
+                            <h2 class="modal-title w-100 text-center" style="font-size:2rem;">🏓 Vem servar först?</h2>
+                        </div>
+                        <div class="modal-body d-flex flex-column justify-content-center align-items-center pt-2 pb-4">
+                            <form method="post" asp-page-handler="SetFirstServer" class="w-100">
+                                <input type="hidden" asp-for="MatchId" />
+
+                                <div class="d-flex flex-row justify-content-center align-items-end gap-4 mb-4 w-100">
+                                    <div class="d-flex flex-column align-items-center flex-fill">
+                                        <input class="form-check-input fs-2 mb-2"
+                                               type="radio"
+                                               id="p1serves"
+                                               name="Match.IsP1FirstServer"
+                                               value="true"
+                                               @(Model.Match.IsP1FirstServer.GetValueOrDefault() ? "checked" : "") required />
+                                        <label class="form-check-label fs-4 text-center" for="p1serves" style="min-width: 6rem;">
+                                            @Model.Match.Player1FirstName
+                                        </label>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-center flex-fill">
+                                        <input class="form-check-input fs-2 mb-2"
+                                               type="radio"
+                                               id="p2serves"
+                                               name="Match.IsP1FirstServer"
+                                               value="false"
+                                               @(!Model.Match.IsP1FirstServer.GetValueOrDefault() ? "checked" : "") required />
+                                        <label class="form-check-label fs-4 text-center" for="p2serves" style="min-width: 6rem;">
+                                            @Model.Match.Player2FirstName
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <button type="submit" class="btn btn-success btn-lg fw-bold w-100 py-3 rounded-3" style="font-size:1.5rem;">Starta match</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        @if (Model.LastFinishedSet != null && !Model.Match.IsFinished)
+        {
+            <div class="modal-overlay">
+                <div class="modal-content text-center" style="max-width:80vw;">
+                    <div style="font-size: 2.2rem; font-weight: bold; color: #2e7d32; margin-bottom: 1rem;">
+                        Set vunnit av @Model.LastFinishedSet.WinnerFirstName! 🎉
+                    </div>
+                    <button type="button" class="btn btn-success py-3 px-3 fs-4 fw-bold d-inline-block" onclick="closeSetWinModal()">Okej</button>
+                </div>
+            </div>
+        }
+    }
+
+    else
+    {
+        <div class="container live-match-index mt-0 h-100">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <h1 class="flex-grow-1 text-center mt-3">Vinnare @Model.Winner!</h1>
+            </div>
+
+            <div class="mx-auto" style="max-width: 800px;">
+                <div class="card shadow p-4 live-match-card mb-1">
+
+                    <div class="row justify-content-center mb-2 gy-3">
+                        <h2 class="mt-2 mb-2">Matchtid: @Model.Match.MatchDuration.Value.ToString("mm\\:ss")</h2>
+
+                        @foreach (var set in Model.Match.Sets)
+                        {
+                            <div class="d-flex justify-content-center m-1">
+                                <span class="smaller-span text-white fw-bold m-1">Set: @set.SetNumber:</span>
+                                <span class="smaller-span text-white m-1">Tid: @(set.SetDuration?.ToString("mm\\:ss") ?? "Pågår...") - @Model.Match.Player1FirstName @set.Player1Points - @Model.Match.Player2FirstName @set.Player2Points</span>
+                            </div>
+
+                        }
+                    </div>
+
+
+
+                    <div class="d-flex justify-content-center gap-3 mt-2 p-3" id="button-box">
+
+                        <a class="btn-submit-Player-Game" asp-area="" asp-page="/LiveMatch/Index">Starta ny match</a>
+
+                        <form method="post">
+                            <input type="hidden" asp-for="MatchId" />
+                            <button class="btn-CreatePlayer-ShowGame" asp-page-handler="StartRematch">Starta revanchmatch</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+
+<script>
+
+        function closeSetWinModal() {
+
+        var modal = document.querySelector('.modal-overlay');
+        if (modal) modal.style.display = 'none';
+    }
+    (() => {
+        const timerEl = document.getElementById("set-timer");
+        if (!timerEl) return;
+
+        const startTime = new Date(timerEl.dataset.start);
+
+        function updateTimer() {
+            const now = new Date();
+            const diffMs = now.getTime() - startTime.getTime();
+            if (diffMs < 0) return;
+
+            const diff = new Date(diffMs);
+
+            const minutes = String(diff.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(diff.getUTCSeconds()).padStart(2, '0');
+
+            timerEl.textContent = `Settid: ${minutes}:${seconds}`;
+        }
+
+        updateTimer();
+        setInterval(updateTimer, 1000);
+    })();
+</script>

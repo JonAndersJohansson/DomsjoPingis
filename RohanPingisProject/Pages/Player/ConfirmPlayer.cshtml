@@ -1,0 +1,51 @@
+﻿@page
+@model RohanPingisProject.Pages.Player.ConfirmPlayerModel
+@{
+    @using DataAccessLayer.Data.Models
+    ViewData["Title"] = "Spelare skapad";
+}
+
+<section class="container create-player mt-4">
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-center m-2">
+        <h1 class="text-center m-0">Spelare skapad</h1>
+    </div>
+
+
+    <div class="mx-auto" style="max-width: 800px;">
+        <div class="card shadow p-4 live-match-card">
+            <div class="row justify-content-center mb-4 gy-3">
+                <h2 class="mt-1 fw-bold">Spelar-ID: <span class="text-danger">@Model.PlayerInfo.Id</span></h2>
+
+                <h3><strong>Namn:</strong> @Model.PlayerInfo.Name</h3>
+                <h3>
+                    <strong>Kön:</strong>
+                    @switch (Model.PlayerInfo.Gender)
+                    {
+                        case Gender.Male:
+                            <text><i class="fa-solid fa-mars text-primary me-1"></i> Man</text>
+                            break;
+                        case Gender.Female:
+                            <text><i class="fa-solid fa-venus text-danger me-1"></i> Kvinna</text>
+                            break;
+                        default:
+                            <text><i class="fa-solid fa-genderless text-muted me-1"></i> Ej angivet</text>
+                            break;
+                    }
+                </h3>                <h3><strong>Födelsedag:</strong> @Model.PlayerInfo.BirthDate.ToShortDateString()</h3>
+
+                <p class="mt-3">
+                    Välkommen till Ängby Sportklubb! 
+                    <br />
+                    Nu kan du börja spela matcher, ha så kul i pingisspelandet!
+                </p>
+
+                <div class="text-center mt-4">
+                    <a class="btn btn-CreatePlayer-ShowGame me-2" asp-page="/LiveMatch/Index">Starta en match</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

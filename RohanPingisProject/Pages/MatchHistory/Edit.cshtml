@@ -1,0 +1,114 @@
+﻿@page "{id:int}"
+@model RohanPingisProject.Pages.Match.EditModel
+@{
+    ViewData["Title"] = "Ändra match";
+}
+
+<section class="container-fluid live-match-index" style="margin-top: 10px; margin-bottom: 80px;">
+    <div class="mx-auto" style="max-width: 1050px; width: 100%;">
+
+        <div class="d-flex justify-content-center align-items-center position-relative mb-3">
+            <a asp-page="MatchDetails" asp-route-id="@Model.Input.Id"
+               class="btn btn-goback btn-sm position-absolute start-0 d-none d-sm-inline-block">
+                Tillbaka
+            </a>
+            <h1 class="h4 text-center m-0">ÄNDRA MATCH</h1>
+        </div>
+
+        <div class="card shadow live-match-card p-3" style="border-radius: 15px; min-height: 570px;">
+            <form method="post">
+                <input type="hidden" asp-for="Input.Id" />
+                <input type="hidden" asp-for="Input.BestOf" />
+                <input type="hidden" asp-for="Input.Player1Score" />
+                <input type="hidden" asp-for="Input.Player2Score" />
+                <input type="hidden" asp-for="Input.IsFinished" />
+
+                <div class="p-4" style="background-color: rgba(0,0,0,0.2); border-radius: 12px;">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+                    <div class="row gy-5">
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Input.Player1Id" class="form-label text-white mb-2 fs-5">Spelare 1</label>
+                            <select asp-for="Input.Player1Id" class="form-select form-select-lg" asp-items="Model.PlayerList"></select>
+                            <span asp-validation-for="Input.Player1Id" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Input.Player2Id" class="form-label text-white mb-2 fs-5">Spelare 2</label>
+                            <select asp-for="Input.Player2Id" class="form-select form-select-lg" asp-items="Model.PlayerList"></select>
+                            <span asp-validation-for="Input.Player2Id" class="text-danger"></span>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label asp-for="Input.MatchDate" class="form-label text-white mb-2 fs-5">Matchdatum och tid</label>
+                            <input asp-for="Input.MatchDate" type="datetime-local" class="form-control form-control-lg" />
+                            <span asp-validation-for="Input.MatchDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row gy-5 mt-5">
+                        <div class="col-12 col-md-4">
+                            <label for="setSelector" class="form-label text-white mb-2 fs-5">Välj set</label>
+                            <select id="setSelector" class="form-select form-select-lg">
+                                @for (int i = 0; i < Model.Input.Sets.Count; i++)
+                                {
+                                    <option value="@Model.Input.Sets[i].SetNumber">Set @Model.Input.Sets[i].SetNumber</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div id="player1PointsContainer">
+                                @for (int i = 0; i < Model.Input.Sets.Count; i++)
+                                {
+                                    <div class="set-player1 d-none" data-set="@Model.Input.Sets[i].SetNumber">
+                                        <input asp-for="Input.Sets[@i].Id" type="hidden" />
+                                        <input asp-for="Input.Sets[@i].SetNumber" type="hidden" />
+                                        <input asp-for="Input.Sets[@i].IsFinished" type="hidden" />
+                                        <label class="form-label text-white mb-2 fs-5">Spelare 1 - Setpoäng</label>
+                                        <input asp-for="Input.Sets[@i].Player1Points" type="number" min="0" class="form-control form-control-lg" />
+                                        <span asp-validation-for="Input.Sets[@i].Player1Points" class="text-danger"></span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div id="player2PointsContainer">
+                                @for (int i = 0; i < Model.Input.Sets.Count; i++)
+                                {
+                                    <div class="set-player2 d-none" data-set="@Model.Input.Sets[i].SetNumber">
+                                        <label class="form-label text-white mb-2 fs-5">Spelare 2 - Setpoäng</label>
+                                        <input asp-for="Input.Sets[@i].Player2Points" type="number" min="0" class="form-control form-control-lg" />
+                                        <span asp-validation-for="Input.Sets[@i].Player2Points" class="text-danger"></span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-custom-danger btn-sm px-3 py-1">
+                        <i class="fa fa-save me-1 small"></i>
+                        Spara ändringar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function(){
+            var $setSelector = $('#setSelector');
+
+            function showSelectedSet() {
+                var setNumber = parseInt($setSelector.val(), 10);
+                $('.set-player1, .set-player2').addClass('d-none');
+                $('.set-player1[data-set="' + setNumber + '"], .set-player2[data-set="' + setNumber + '"]').removeClass('d-none');
+            }
+
+            showSelectedSet();
+            $setSelector.on('change', showSelectedSet);
+        });
+    </script>
+}
