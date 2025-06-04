@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Interface;
 using System.ComponentModel.DataAnnotations;
 
-namespace RohanPingisProject.Pages.Match
+namespace DomsjoPingisProject.Pages.Match
 {
     [Authorize(Roles = "Admin")]
     public class EditModel : PageModel

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.MatchHistory
+namespace DomsjoPingisProject.Pages.MatchHistory
 {
     public class TopTenModel : PageModel
     {

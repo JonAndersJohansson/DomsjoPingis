@@ -3,10 +3,10 @@ using DataAccessLayer.DTO_s;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.Player
+namespace DomsjoPingisProject.Pages.Player
 {
     public class CreatePlayerModel : PageModel
     {

@@ -5,7 +5,7 @@ using Service.Interface;
 using Service.Service;
 
 
-namespace RohanPingisProject
+namespace DomsjoPingisProject
 {
     public class Program
     {

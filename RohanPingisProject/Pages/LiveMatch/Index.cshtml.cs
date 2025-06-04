@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Interface;
 using System.ComponentModel.DataAnnotations;
 
-namespace RohanPingisProject.Pages.LiveMatch
+namespace DomsjoPingisProject.Pages.LiveMatch
 {
     public class IndexModel : PageModel
     {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.Api
+namespace DomsjoPingisProject.Pages.Api
 {
     public class SearchPlayersModel : PageModel
     {

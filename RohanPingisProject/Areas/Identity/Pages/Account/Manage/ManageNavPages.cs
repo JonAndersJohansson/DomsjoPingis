@@ -1,9 +1,8 @@
 ﻿#nullable disable
 
-using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace  RohanPingisProject.Areas.Identity.Pages.Account.Manage
+namespace DomsjoPingisProject.Areas.Identity.Pages.Account.Manage
 {
     public static class ManageNavPages
     {

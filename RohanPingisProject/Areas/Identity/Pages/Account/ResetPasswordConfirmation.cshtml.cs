@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RohanPingisProject.Areas.Identity.Pages.Account
+namespace DomsjoPingisProject.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ResetPasswordConfirmationModel : PageModel

@@ -1,11 +1,11 @@
 ﻿#nullable disable
 
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics;
 
-namespace RohanPingisProject.Areas.Identity.Pages
+namespace DomsjoPingisProject.Areas.Identity.Pages
 {
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

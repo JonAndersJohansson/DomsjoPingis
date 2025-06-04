@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Data.Models;
 
-namespace RohanPingisProject.ViewModels
+namespace DomsjoPingisProject.ViewModels
 {
     public class MatchViewModel
     {

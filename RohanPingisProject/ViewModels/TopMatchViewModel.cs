@@ -1,4 +1,4 @@
-﻿namespace RohanPingisProject.ViewModels
+﻿namespace DomsjoPingisProject.ViewModels
 {
     public class TopMatchViewModel
     {

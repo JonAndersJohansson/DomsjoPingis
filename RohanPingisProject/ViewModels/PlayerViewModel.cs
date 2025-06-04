@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace RohanPingisProject.ViewModels
+namespace DomsjoPingisProject.ViewModels
 {
     public class PlayerViewModel
     {

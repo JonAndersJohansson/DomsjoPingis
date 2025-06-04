@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RohanPingisProject.Areas.Identity.Pages.Account
+namespace DomsjoPingisProject.Areas.Identity.Pages.Account
 {
     public class AccessDeniedModel : PageModel
     {

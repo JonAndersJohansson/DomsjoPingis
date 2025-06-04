@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-RohanPingisProject-845d654a-5aa1-4766-a9ed-1dae4e794164</UserSecretsId>
+    <UserSecretsId>aspnet-DomsjoPingisProject-845d654a-5aa1-4766-a9ed-1dae4e794164</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

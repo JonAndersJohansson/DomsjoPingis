@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.Player
+namespace DomsjoPingisProject.Pages.Player
 {
     public class ConfirmPlayerModel : PageModel
     {

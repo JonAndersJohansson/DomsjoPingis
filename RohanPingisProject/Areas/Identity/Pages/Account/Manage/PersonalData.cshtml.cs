@@ -1,11 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
-namespace RohanPingisProject.Areas.Identity.Pages.Account.Manage
+namespace DomsjoPingisProject.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : PageModel
     {

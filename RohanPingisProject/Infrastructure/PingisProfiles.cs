@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DataAccessLayer.Data.Models;
 using DataAccessLayer.DTO_s;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 
 public class PingisProfile : Profile
 {

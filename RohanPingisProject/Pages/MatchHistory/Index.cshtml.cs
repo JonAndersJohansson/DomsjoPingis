@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.MatchHistory
+namespace DomsjoPingisProject.Pages.MatchHistory
 {
     [Authorize(Roles = "Admin")]
 

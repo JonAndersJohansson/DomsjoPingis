@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.MatchDetails
+namespace DomsjoPingisProject.Pages.MatchDetails
 {
     [Authorize(Roles = "Admin")]
 

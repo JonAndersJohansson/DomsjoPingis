@@ -2,10 +2,11 @@ using AutoMapper;
 using DataAccessLayer.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using RohanPingisProject.ViewModels;
+using DomsjoPingisProject.ViewModels;
 using Service.Interface;
 
-namespace RohanPingisProject.Pages.LiveMatch
+
+namespace DomsjoPingisProject.Pages.LiveMatch
 {
     public class GameModel : PageModel
     {
