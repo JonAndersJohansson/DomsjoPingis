@@ -21,7 +21,7 @@ namespace DataAccessLayer.Data
             SeedUsers();
             SeedPlayers();
             SeedMatches();
-           
+
         }
 
         private void SeedUsers()
@@ -144,6 +144,9 @@ namespace DataAccessLayer.Data
                 var boll = players.First(p => p.Name == "Timo Boll");
                 var deng = players.First(p => p.Name == "Deng Yaping");
                 var mima = players.First(p => p.Name == "Mima Ito");
+                var britta = players.First(p => p.Name == "Britta Svensson");
+                var kalle = players.First(p => p.Name == "Kalle Persson");
+                var pelle = players.First(p => p.Name == "Pelle Jonsson");
 
                 var matches = new List<Match>
         {
@@ -221,7 +224,40 @@ namespace DataAccessLayer.Data
                 }
             }
         };
+                // Lägg till ytterligare 6 matcher dynamiskt
+                var playerPairs = new List<(Player p1, Player p2)>
+        {
+            (chalk, waldner),
+            (boll, britta),
+            (deng, kalle),
+            (pelle, maLong),
+            (truls, britta),
+            (mima, pelle)
+        };
 
+                for (int i = 0; i < playerPairs.Count; i++)
+                {
+                    var pair = playerPairs[i];
+                    matches.Add(new Match
+                    {
+                        Player1Id = pair.p1.Id,
+                        Player2Id = pair.p2.Id,
+                        BestOfSets = BestOf.BestOf5,
+                        MatchDate = new DateTime(2024, 5, 18 + i, 18, 0, 0),
+                        Player1Score = 3,
+                        Player2Score = 2,
+                        IsFinished = true,
+                        IsActive = true,
+                        Sets = new List<Set>
+                {
+                    new Set { SetNumber = 1, Player1Points = 11, Player2Points = 9, IsFinished = true },
+                    new Set { SetNumber = 2, Player1Points = 8, Player2Points = 11, IsFinished = true },
+                    new Set { SetNumber = 3, Player1Points = 11, Player2Points = 7, IsFinished = true },
+                    new Set { SetNumber = 4, Player1Points = 9, Player2Points = 11, IsFinished = true },
+                    new Set { SetNumber = 5, Player1Points = 11, Player2Points = 8, IsFinished = true }
+                }
+                    });
+                }
                 _dbContext.Matches.AddRange(matches);
                 _dbContext.SaveChanges();
             }
