@@ -31,10 +31,19 @@ namespace DomsjoPingisProject
 
             var app = builder.Build();
 
+
             using (var scope = app.Services.CreateScope())
             {
-                scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                if (dbContext.Database.IsRelational())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                // Kör SeedData efter migration
+                scope.ServiceProvider.GetRequiredService<DataInitializer>().SeedData();
             }
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
@@ -45,7 +54,33 @@ namespace DomsjoPingisProject
                 app.UseHsts();
             }
 
-            
+
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            //    if (dbContext.Database.IsRelational())
+            //    {
+            //        dbContext.Database.Migrate();
+            //    }
+
+            //    // Kör SeedData efter migration
+            //    scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+            //}
+            //using (var scope = app.Services.CreateScope())
+            //{
+            //    scope.ServiceProvider.GetService<DataInitializer>().SeedData();
+            //}
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseMigrationsEndPoint();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error");
+            //    app.UseHsts();
+            //}
+
+
 
             app.UseHttpsRedirection();
             app.UseRouting();
