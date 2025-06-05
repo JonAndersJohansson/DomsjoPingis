@@ -1,6 +1,6 @@
-# Ängby Bordtennisklubb - Rohan Pingis Web App
+# Domsjö Pingisklubb - Web App
 
-Detta projekt är en ASP.NET Web App för Ängby Bordtennisklubb, skapad som en del av en gruppuppgift i kursen. Applikationen hanterar bordtennismatcher och är utvecklad enligt agila principer (Scrum) i en teammiljö.
+Detta projekt är en ASP.NET Web App för en påhittad Bordtennisklubb, skapad som en del av en gruppuppgift i kursen Agila-arbetsmetoder. Applikationen hanterar bordtennismatcher och är utvecklad enligt agila principer (Scrum) i en teammiljö.
 
 ## Innehållsförteckning
 - [Beskrivning av projektet](#beskrivning-av-projektet)
@@ -25,7 +25,7 @@ Denna webapplikation är utvecklad för att hantera bordtennismatcher. Användar
 - Visa topplistor över spelare.
 - Administrera spelare och matcher (låst för admin).
 
-Projektet är byggt med Razor Pages och Entity Framework Code First, samt en professionell och användarvänlig design inspirerad av Ängby Sportklubbs egen hemsida.
+Projektet är byggt med Razor Pages och Entity Framework Code First, samt en professionell och användarvänlig design.
 
 ---
 
@@ -88,7 +88,7 @@ Projektet uppfyller krav från uppgiften:
 
 ## Trello Board
 
-Länk till vår Trello Board: [https://trello.com/b/c1zDmJLG/riders-of-rohan]
+Länk till vår Trello Board: inaktuell
 
 ---
 
@@ -99,12 +99,12 @@ Länk till vår Trello Board: [https://trello.com/b/c1zDmJLG/riders-of-rohan]
 3. Bygg projektet (Build).
 4. Starta applikationen med IIS Express.
 5. Logga in som admin med:
-   - **Användarnamn**: admin@angby.se
+   - **Användarnamn**: admin@domsjo.net
    - **Lösenord**: *Admin100*
 
 ---
 
-## Team (Rohan)
+## Team
 
 Projektet utvecklades av ett team på 5 utvecklare. Vår lärare agerade Product Owner och en av oss agerade Scrum Master.
 - Jon Johansson (Scrum Master)
@@ -117,7 +117,7 @@ Projektet utvecklades av ett team på 5 utvecklare. Vår lärare agerade Product
 
 ## Kontakt
 
-För frågor eller feedback, kontakta projektets Scrum Master på jonjohansson@gmail.com
+För frågor eller feedback, kontakta projektets Scrum Master på jonjohansson88@gmail.com
 
 ---
 
