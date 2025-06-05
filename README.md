@@ -100,7 +100,7 @@ Länk till vår Trello Board: inaktuell
 4. Starta applikationen med IIS Express.
 5. Logga in som admin med:
    - **Användarnamn**: admin@domsjo.net
-   - **Lösenord**: *Admin100*
+   - **Lösenord**: *Admin100
 
 ---
 
