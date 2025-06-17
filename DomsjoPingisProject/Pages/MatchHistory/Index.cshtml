@@ -75,7 +75,7 @@
                             <div class="text-center th-text">
                                 Spelare 2
                             </div>
-                            <div class ="text-center">
+                            <div class="text-center">
                                 <a asp-page="/MatchHistory/Index"
                                    asp-route-sortColumn="Player2Name"
                                    asp-route-sortOrder="asc"
@@ -135,15 +135,27 @@
                     @foreach (var Match in Model.Matches)
                     {
                         <tr>
-                            <td class ="text-center th-text">@Match.Id</td>
-                            <td class ="text-center th-text">@Match.Player1Name</td>
-                            <td class ="text-center th-text">@Match.Player2Name</td>
+                            <td class="text-center th-text">@Match.Id</td>
+                            <td class="text-center th-text">
+                                @Match.Player1Name
+                                @if (Match.Player1Score > Match.Player2Score)
+                                {
+                                    <span>🏆</span>
+                                }
+                            </td>
+                            <td class="text-center th-text">
+                                @Match.Player2Name
+                                @if (Match.Player2Score > Match.Player1Score)
+                                {
+                                    <span>🏆</span>
+                                }
+                            </td>
                             <td class="text-center th-text">
                                 @Match.MatchDate.ToString("yyyy-MM-dd")
                             </td>
                             <td class="text-center th-text">@((int)Match.BestOfSets)</td>
                             <td class="text-center th-text">
-                                
+
                                 <a asp-page="/MatchHistory/MatchDetails"
                                    asp-route-id="@Match.Id"
                                    class="btn" id="eye-btn">
@@ -162,63 +174,63 @@
         </div>
 
         <div class="pagination-container d-flex justify-content-between align-items-center mt-3">
-        <div class="d-flex flex-wrap gap-2">
-            @if (Model.CurrentPage != 1)
-            {
-                <a class="btn btn-custom-success"
-                   asp-page="/MatchHistory/Index"
-                   asp-route-match="@Model.Matches"
-                   asp-route-sortColumn="@Model.SortColumn"
-                   asp-route-sortOrder="@Model.SortOrder"
-                   asp-route-pageNo="@(Model.CurrentPage-1)">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Föregående
-                </a>
-            }
-            @if (Model.CurrentPage > 3)
-            {
-                <a class="btn-custom-primary"
-                   asp-route-pageNo="1">1</a>
-                <span class="btn disabled">...</span>
-            }
-
-            @for (int i = Model.CurrentPage - 1; i <= Model.CurrentPage + 2; i++)
-            {
-                if (i > 0 && i <= Model.PageCount)
+            <div class="d-flex flex-wrap gap-2">
+                @if (Model.CurrentPage != 1)
                 {
-                    string activeLink = (i == Model.CurrentPage) ? "btn-custom-primary" : "btn-custom-secondary";
-                    <a class="btn @activeLink"
-                       asp-route-pageNo="@i">
-                        @i
+                    <a class="btn btn-custom-success"
+                       asp-page="/MatchHistory/Index"
+                       asp-route-match="@Model.Matches"
+                       asp-route-sortColumn="@Model.SortColumn"
+                       asp-route-sortOrder="@Model.SortOrder"
+                       asp-route-pageNo="@(Model.CurrentPage - 1)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Föregående
                     </a>
                 }
-            }
+                @if (Model.CurrentPage > 3)
+                {
+                    <a class="btn-custom-primary"
+                       asp-route-pageNo="1">1</a>
+                    <span class="btn disabled">...</span>
+                }
 
-            @if (Model.CurrentPage < Model.PageCount - 3)
+                @for (int i = Model.CurrentPage - 1; i <= Model.CurrentPage + 2; i++)
+                {
+                    if (i > 0 && i <= Model.PageCount)
+                    {
+                        string activeLink = (i == Model.CurrentPage) ? "btn-custom-primary" : "btn-custom-secondary";
+                        <a class="btn @activeLink"
+                           asp-route-pageNo="@i">
+                            @i
+                        </a>
+                    }
+                }
+
+                @if (Model.CurrentPage < Model.PageCount - 3)
+                {
+                    <span class="btn disabled">...</span>
+                    <a class="btn-custom-primary"
+                       asp-route-pageNo="@Model.PageCount">
+                        @Model.PageCount
+                    </a>
+                }
+            </div>
+
+
+            @if (Model.CurrentPage < Model.PageCount)
             {
-                <span class="btn disabled">...</span>
-                <a class="btn-custom-primary"
-                   asp-route-pageNo="@Model.PageCount">
-                    @Model.PageCount
-                </a>
+                <div class="ms-auto">
+                    <a class="btn btn-custom-success"
+                       asp-page="/MatchHistory/Index"
+                       asp-route-match="@Model.Matches"
+                       asp-route-sortColumn="@Model.SortColumn"
+                       asp-route-sortOrder="@Model.SortOrder"
+                       asp-route-pageNo="@(Model.CurrentPage + 1)">
+                        Nästa
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             }
         </div>
-
-
-        @if (Model.CurrentPage < Model.PageCount)
-        {
-            <div class="ms-auto">
-                <a class="btn btn-custom-success"
-                   asp-page="/MatchHistory/Index"
-                   asp-route-match="@Model.Matches"
-                   asp-route-sortColumn="@Model.SortColumn"
-                   asp-route-sortOrder="@Model.SortOrder"
-                   asp-route-pageNo="@(Model.CurrentPage+1)">
-                    Nästa
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </div>
-        }
     </div>
-    </div>
-    </section>
+</section>

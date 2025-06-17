@@ -35,7 +35,7 @@ namespace DomsjoPingisProject.Pages.LiveMatch
 
         public void OnGet()
         {
-            BestOf = _matchService.GetSetList();    
+            BestOf = _matchService.GetSetList();
         }
 
         public IActionResult OnPost()

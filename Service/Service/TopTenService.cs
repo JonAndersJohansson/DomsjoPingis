@@ -22,10 +22,12 @@ namespace Service.Service
                 .ToList();
         }
 
-        public List<TopPlayerDto> GetTopByWins()
+        public List<TopPlayerDto> GetTopByWinRatio()
         {
             return GetAllPlayersStats()
-                .OrderByDescending(p => p.MatchesWon)
+                .Where(p => p.MatchesPlayed > 0)
+                .OrderByDescending(p => p.WinRatio)
+                .ThenByDescending(p => p.MatchesPlayed)
                 .Take(10)
                 .ToList();
         }
@@ -39,23 +41,33 @@ namespace Service.Service
 
             return players.Select(player =>
             {
-                var allMatches = player.MatchesAsPlayer1.Concat(player.MatchesAsPlayer2)
-                                    .Where(m => m.IsFinished);
+                var allMatches = player.MatchesAsPlayer1
+                                    .Concat(player.MatchesAsPlayer2)
+                                    .Where(m => m.IsFinished)
+                                    .ToList();
 
-                int setsWon = allMatches.Sum(m =>
-                    m.Player1Id == player.Id ? m.Player1Score :
-                    m.Player2Id == player.Id ? m.Player2Score : 0);
+                int matchesPlayed = allMatches.Count;
 
                 int matchesWon = allMatches.Count(m =>
                     (m.Player1Id == player.Id && m.Player1Score > m.Player2Score) ||
                     (m.Player2Id == player.Id && m.Player2Score > m.Player1Score));
 
+                int setsWon = allMatches.Sum(m =>
+                    m.Player1Id == player.Id ? m.Player1Score :
+                    m.Player2Id == player.Id ? m.Player2Score : 0);
+
+                int winRatioPercent = matchesPlayed > 0
+                    ? (int)Math.Round((double)matchesWon / matchesPlayed * 100)
+                    : 0;
+
                 return new TopPlayerDto
                 {
                     Id = player.Id,
                     Name = player.Name,
+                    MatchesPlayed = matchesPlayed,
                     TotalSetsWon = setsWon,
-                    MatchesWon = matchesWon
+                    MatchesWon = matchesWon,
+                    WinRatio = winRatioPercent
                 };
             });
         }
@@ -67,7 +79,7 @@ namespace Service.Service
                 .Include(m => m.Player2)
                 .Include(m => m.Sets)
                 .Where(m => m.IsFinished)
-                .ToList() 
+                .ToList()
                 .Select(m => new TopMatchDto
                 {
                     MatchId = m.Id,
@@ -116,4 +128,3 @@ namespace Service.Service
 
     }
 }
-

@@ -7,76 +7,79 @@
 }
 
 <section class="top-ten-section container-fluid py-4">
-    <h2 class="top-10-title text-center">Top 10</h2>
+    <h2 class="top-10-title text-center">Topp 10</h2>
 
     <div class="leaderboard-container">
         <div class="leaderboard">
-        <h1>
-            <i class="fas fa-trophy me-2"></i>
-            Flest Vunna Matcher
-        </h1>
-        <ol>
-            @for (int i = 0; i < Model.TopByWins.Count; i++)
-            {
-                var player = Model.TopByWins[i];
-                <li>
+            <h1>
+                <i class="fas fa-trophy me-2"></i>
+                Bästa spelare
+            </h1>
+            <ol>
+                @for (int i = 0; i < Model.TopByWinRatio.Count; i++)
+                {
+                    var player = Model.TopByWinRatio[i];
+                    <li>
                         <mark class="text-white">
                             @player.Name
                         </mark>
-                    <small class="score">@player.MatchesWon</small>
-                </li>
-            }
-        </ol>
-    </div>
+                        <small class="score d-block">
+                            @player.MatchesPlayed matcher |
+                            @player.TopByWinRatio% vinst
+                        </small>
+                    </li>
+                }
+            </ol>
+        </div>
 
-   
 
-    <div class="leaderboard">
-        <h1>
-            <i class="fas fa-stopwatch me-2"></i>
-            Längsta Matcher
-        </h1>
-        <ol>
-            @for (int i = 0; i < Model.LongestMatches.Count; i++)
-            {
-                var match = Model.LongestMatches[i];
-                <li class="position-relative">
-                    <a asp-page="/MatchHistory/MatchDetails"
-                       asp-route-id="@match.MatchId"
-                       class="text-decoration-none text-white d-block">
-                        <mark class="d-block text-white">
-                            @match.Player1Name
-                            <span class="text-white d-block ms-0">vs @match.Player2Name</span>
-                        </mark>
-                        <small class="time">@match.FormattedDuration</small>
-                    </a>
-                </li>
-            }
-        </ol>
-    </div>
 
-    <div class="leaderboard">
-        <h1>
-            <i class="fas fa-bolt me-2"></i>
-            Snabbaste Matcher
-        </h1>
-        <ol>
-            @for (int i = 0; i < Model.ShortestMatches.Count; i++)
-            {
-                var match = Model.ShortestMatches[i];
-                <li class="position-relative">
-                    <a asp-page="/MatchHistory/MatchDetails"
-                       asp-route-id="@match.MatchId"
-                       class="text-decoration-none text-white d-block">
-                        <mark class="d-block text-white">
-                            @match.Player1Name
-                            <span class="text-white d-block ms-0">vs @match.Player2Name</span>
-                        </mark>
-                        <small class="time">@match.FormattedDuration</small>
-                    </a>
-                </li>
-            }
-        </ol>
+        <div class="leaderboard">
+            <h1>
+                <i class="fas fa-stopwatch me-2"></i>
+                Längsta Matcher
+            </h1>
+            <ol>
+                @for (int i = 0; i < Model.LongestMatches.Count; i++)
+                {
+                    var match = Model.LongestMatches[i];
+                    <li class="position-relative">
+                        <a asp-page="/MatchHistory/MatchDetails"
+                           asp-route-id="@match.MatchId"
+                           class="text-decoration-none text-white d-block">
+                            <mark class="d-block text-white">
+                                @match.Player1Name
+                                <span class="text-white d-block ms-0">vs @match.Player2Name</span>
+                            </mark>
+                            <small class="time">@match.FormattedDuration</small>
+                        </a>
+                    </li>
+                }
+            </ol>
+        </div>
+
+        <div class="leaderboard">
+            <h1>
+                <i class="fas fa-bolt me-2"></i>
+                Snabbaste Matcher
+            </h1>
+            <ol>
+                @for (int i = 0; i < Model.ShortestMatches.Count; i++)
+                {
+                    var match = Model.ShortestMatches[i];
+                    <li class="position-relative">
+                        <a asp-page="/MatchHistory/MatchDetails"
+                           asp-route-id="@match.MatchId"
+                           class="text-decoration-none text-white d-block">
+                            <mark class="d-block text-white">
+                                @match.Player1Name
+                                <span class="text-white d-block ms-0">vs @match.Player2Name</span>
+                            </mark>
+                            <small class="time">@match.FormattedDuration</small>
+                        </a>
+                    </li>
+                }
+            </ol>
+        </div>
     </div>
-</div>
 </section>

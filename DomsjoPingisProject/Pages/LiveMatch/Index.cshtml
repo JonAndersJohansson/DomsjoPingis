@@ -99,9 +99,9 @@
                         success: function (data) {
                             response($.map(data, function (item) {
                                 return {
-                                    label: item.name,
-                                    value: item.name,
-                                    id: item.id
+                                   label: item.displayName,
+                                   value: item.displayName,
+                                   id: item.id
                                 };
                             }));
                         }
@@ -126,6 +126,10 @@
                 $(this).removeClass("is-valid is-invalid");
             });
             $(inputSelector).on("blur", function () {
+                if ($(hiddenIdSelector).val()) {
+                    return;
+                }
+
                 const inputVal = $(this).val().trim();
                 if (!inputVal) return;
 
@@ -133,10 +137,13 @@
                     url: "/api/SearchPlayers",
                     data: { term: inputVal },
                     success: function (data) {
-                        const match = data.find(p => p.name.toLowerCase() === inputVal.toLowerCase());
+                        const match = data.find(p => p.displayName.toLowerCase() === inputVal.toLowerCase());
                         if (!match) {
                             $(inputSelector).addClass("is-invalid").removeClass("is-valid");
                             $(hiddenIdSelector).val("");
+                        } else {
+                            $(hiddenIdSelector).val(match.id);
+                            $(inputSelector).addClass("is-valid").removeClass("is-invalid");
                         }
                     }
                 });

@@ -2,6 +2,7 @@
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Models;
 using DataAccessLayer.DTO_s;
+using DataAccessLayer.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Service.Infrastructure.Translator;
 using Service.Interface;
@@ -86,17 +87,17 @@ namespace Service.Service
             }
         }
 
-        public List<object> SearchPlayers(string term)
+        public IEnumerable<PlayerAutocompleteDto> SearchPlayers(string term)
         {
             return _dbContext.Players
-                .Where(p => p.Name.ToLower().Contains(term.ToLower()))
-                .Select(p => new
+                .Where(p => p.IsActive && p.Name.Contains(term))
+                .OrderBy(p => p.Name)
+                .Select(p => new PlayerAutocompleteDto
                 {
-                    id = p.Id,
-                    name = p.Name
+                    Id = p.Id,
+                    DisplayName = $"{p.Name} {p.BirthDate:yy-MM-dd}"
                 })
-                .Take(10)
-                .ToList<object>();
+                .ToList();
         }
 
     }

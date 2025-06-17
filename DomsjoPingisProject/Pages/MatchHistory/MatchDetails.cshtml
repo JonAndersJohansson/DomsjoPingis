@@ -5,7 +5,6 @@
     ViewData["Title"] = "Matchdetaljer";
 }
 
-
 <section class="container-fluid live-match-index mt-2">
     <div class="mx-auto" style="max-width: 1000px;">
         <div class="d-flex justify-content-center align-items-center position-relative mb-2">
@@ -60,19 +59,19 @@
                                 <span class="d-inline-block">@Model.Match.Player2Name</span>
                                 @if (Model.Match.Player2Gender == Gender.Male)
                                 {
-                                    <i class="fa-solid fa-mars player-text ms-1 ms-md-2"></i>
+                                    <i class="fa-solid fa-mars player-text gender-icon ms-1 ms-md-2"></i>
                                 }
                                 else if (Model.Match.Player2Gender == Gender.Female)
                                 {
-                                    <i class="fa-solid fa-venus player-text ms-1 ms-md-2"></i>
+                                    <i class="fa-solid fa-venus player-text gender-icon ms-1 ms-md-2"></i>
                                 }
                                 else if (Model.Match.Player2Gender == Gender.Other)
                                 {
-                                    <i class="fa-solid fa-mars-and-venus player-text ms-1 ms-md-2"></i>
+                                    <i class="fa-solid fa-mars-and-venus player-text gender-icon ms-1 ms-md-2"></i>
                                 }
                                 else
                                 {
-                                    <i class="fa-solid fa-face-smile-wink player-text ms-1 ms-md-2"></i>
+                                    <i class="fa-solid fa-face-smile-wink player-text gender-icon ms-1 ms-md-2"></i>
                                 }
                             </div>
                         </div>
@@ -161,12 +160,13 @@
                         <i class="fa fa-edit me-1 small"></i>
                         Ändra match
                     </a>
-                    <a href="#"
-                       onclick="if(confirm('Är du säker på att du vill radera denna match?')) { document.getElementById('deleteForm').submit(); } return false;"
-                       class="btn btn-custom-danger btn-sm px-3 py-1">
+                    <button type="button"
+                            class="btn btn-custom-danger btn-sm px-3 py-1"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteMatchModal">
                         <i class="fa fa-trash me-1 small"></i>
                         Radera match
-                    </a>
+                    </button>
 
                     <form id="deleteForm" method="post" asp-page-handler="Delete" asp-route-id="@Model.Match.Id" style="display: none;">
                     </form>
@@ -175,4 +175,55 @@
         </div>
     </div>
 </section>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteMatchModal" tabindex="-1" aria-labelledby="deleteMatchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content delete-modal-content">
+            <div class="modal-header border-0 pb-0 flex-column align-items-center">
+                <div class="w-100 text-center mb-1">
+                    <i class="fa fa-exclamation-triangle delete-modal-warning" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="modal-title w-100 text-center" id="deleteMatchModalLabel">
+                    Bekräfta borttagning
+                </h5>
+            </div>
+            <div class="modal-body text-center pt-2 pb-4">
+                <p class="mb-3 delete-modal-text">Är du säker på att du vill radera denna match?</p>
+                <div class="delete-modal-match-card p-3 mb-3">
+                    <div class="d-flex flex-column align-items-center mb-2 gap-1">
+                        <div class="text-center">
+                            <i class="fa fa-user me-1 player1-icon"></i>
+                            <strong>@Model.Match.Player1Name</strong>
+                        </div>
+                        <div class="delete-modal-vs">VS</div>
+                        <div class="text-center">
+                            <i class="fa fa-user me-1 player2-icon"></i>
+                            <strong>@Model.Match.Player2Name</strong>
+                        </div>
+                    </div>
+                    <hr class="my-2 delete-modal-divider">
+                    <div class="small delete-modal-date">
+                        <i class="fa fa-calendar me-1"></i>
+                        @Model.Match.MatchDate.ToString("yyyy-MM-dd HH:mm")
+                    </div>
+                </div>
+                <p class="delete-modal-warning-text small mb-0">
+                    <i class="fa fa-info-circle me-1"></i>
+                    Denna åtgärd kan inte ångras!
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center equal-size-buttons">
+                <button type="button" class="btn btn-custom-primary px-3 py-1" data-bs-dismiss="modal">
+                    <i class="fa fa-times me-1 small"></i>
+                    Avbryt
+                </button>
+                <button type="button" class="btn btn-custom-danger px-3 py-1" onclick="document.getElementById('deleteForm').submit();">
+                    <i class="fa fa-trash me-1 small"></i>
+                    Radera match
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 

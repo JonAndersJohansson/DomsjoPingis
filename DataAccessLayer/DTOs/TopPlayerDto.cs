@@ -12,6 +12,8 @@ namespace DataAccessLayer.DTOs
         public string Name { get; set; }
         public int TotalSetsWon { get; set; }
         public int MatchesWon { get; set; }
+        public int MatchesPlayed { get; set; }
+        public int WinRatio { get; set; }
     }
 
 }

@@ -14,7 +14,7 @@ namespace DomsjoPingisProject.Pages.MatchHistory
         }
 
         public List<TopPlayerViewModel> TopBySets { get; set; }
-        public List<TopPlayerViewModel> TopByWins { get; set; }
+        public List<TopPlayerViewModel> TopByWinRatio { get; set; }
 
         public List<TopMatchViewModel> LongestMatches { get; set; }
         public List<TopMatchViewModel> ShortestMatches { get; set; }
@@ -22,7 +22,7 @@ namespace DomsjoPingisProject.Pages.MatchHistory
         public void OnGet()
         {
             var topSetsDto = _topTenService.GetTopBySets();
-            var topWinsDto = _topTenService.GetTopByWins();
+            var topWinsDto = _topTenService.GetTopByWinRatio();
 
             TopBySets = topSetsDto.Select(dto => new TopPlayerViewModel
             {
@@ -32,12 +32,14 @@ namespace DomsjoPingisProject.Pages.MatchHistory
                 MatchesWon = dto.MatchesWon
             }).ToList();
 
-            TopByWins = topWinsDto.Select(dto => new TopPlayerViewModel
+            TopByWinRatio = topWinsDto.Select(dto => new TopPlayerViewModel
             {
                 Id = dto.Id,
                 Name = dto.Name,
                 TotalSetsWon = dto.TotalSetsWon,
-                MatchesWon = dto.MatchesWon
+                MatchesWon = dto.MatchesWon,
+                MatchesPlayed = dto.MatchesPlayed,
+                TopByWinRatio = dto.WinRatio
             }).ToList();
 
             LongestMatches = _topTenService.GetLongestMatches()

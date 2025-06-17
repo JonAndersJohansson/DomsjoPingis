@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.DTO_s;
+using DataAccessLayer.DTOs;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Service.Interface
@@ -9,7 +10,7 @@ namespace Service.Interface
         public void CreateNewPlayer(PlayerDto playerDto);
         List<SelectListItem> GetGenderList();
         public PlayerDto GetPlayerById(int id);
-        public List<object> SearchPlayers(string term);
+        IEnumerable<PlayerAutocompleteDto> SearchPlayers(string term);
 
     }
 
