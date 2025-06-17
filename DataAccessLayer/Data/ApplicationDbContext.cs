@@ -18,6 +18,10 @@ namespace DataAccessLayer.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Player>()
+                .HasIndex(p => new { p.Name, p.BirthDate })
+                .IsUnique();
+
             modelBuilder.Entity<Match>()
                 .HasQueryFilter(m => m.IsActive);
 
